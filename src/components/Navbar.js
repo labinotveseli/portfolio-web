@@ -111,7 +111,7 @@ const Navbar = () => {
           <CustomLink className="mr-4" href="/" title="HOME" />
           <CustomLink className="mx-4" href="/about" title="ABOUT" />
           <CustomLink className="mx-4" href="/projects" title="PROJECTS" />
-          <CustomLink className="ml-4" href="/articles" title="ARTICLES" />
+          <CustomLink className="ml-4" href="/contact" title="CONTACT" />
         </nav>
         <nav className="flex items-center justify-center flex-wrap lg:mt-2">
           <motion.a
@@ -211,8 +211,8 @@ const Navbar = () => {
             <CustomMobileLink
               toggle={handleClick}
               className="ml-4 lg:m-0 lg:my-2"
-              href="/articles"
-              title="ARTICLES"
+              href="/contact"
+              title="CONTACT"
             />
           </nav>
           <nav className="flex items-center justify-center mt-2">

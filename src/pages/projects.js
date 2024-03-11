@@ -9,8 +9,7 @@ import proj1 from "../../public/images/projects/garage.png";
 import proj2 from "../../public/images/projects/starlabs.jpg";
 import proj3 from "../../public/images/projects/multipurpose.png";
 import proj4 from "../../public/images/projects/portfolio.png";
-import proj5 from "../../public/images/projects/agency-website-cover-image.jpg";
-import proj6 from "../../public/images/projects/devdreaming.jpg";
+import proj5 from "../../public/images/projects/coming-soon.jpg";
 import TransitionEffect from "@/components/TransitionEffect";
 
 const FramerImage = motion(Image);
@@ -180,11 +179,11 @@ export default function Projects() {
             <div className="col-span-12">
               <FeaturedProject
                 type="Featured Project"
-                title="Garage Management System"
-                summary="The Garage Management System, developed collaboratively with a team at Benkco under the guidance of a Senior Team Leader, is a comprehensive application designed for efficient garage management. This NextJS-based app encompasses features for handling customers, vehicles, payments, users, and more. The technology stack includes MongoDB, Firebase, Zustand, and other cutting-edge tools. Although the app is currently not connected to a specific database, it serves as a robust foundation for streamlined garage operations."
-                img={proj1}
-                link="https://garage-management-system.netlify.com"
-                github="https://github.com/labinotveseli"
+                title="Portfolio Website"
+                summary="My Next.js portfolio web app is a dynamic showcase of my professional journey, skillset, and projects. Built primarily with Next.js, it incorporates engaging elements such as react-fast-marquee, animations, and responsive design practices. This mobile-friendly platform offers a glimpse into my bio, work experience, various projects, and a convenient contact section. It serves as a comprehensive and visually appealing representation of my skills and accomplishments."
+                img={proj4}
+                link="https://www.labinotveseli.com"
+                github="https://github.com/labinotveseli/portfolio-web"
               />
             </div>
             <div className="col-span-6 sm:col-span-12">
@@ -209,30 +208,30 @@ export default function Projects() {
             </div>
             <div className="col-span-12">
               <FeaturedProject
-                type="Portfolio Website"
-                title="Personal Portfolio"
-                summary="My Next.js portfolio web app is a dynamic showcase of my professional journey, skillset, and projects. Built primarily with Next.js, it incorporates engaging elements such as react-fast-marquee, animations, and responsive design practices. This mobile-friendly platform offers a glimpse into my bio, work experience, various projects, and a convenient contact section. It serves as a comprehensive and visually appealing representation of my skills and accomplishments."
-                img={proj4}
-                link="https://labinotveseli.com"
-                github="https://github.com/labinotveseli/portfolio-web"
+                type="SaaS App"
+                title="Garage Management System"
+                summary="The Garage Management System, developed collaboratively with a team at Benkco under the guidance of a Senior Team Leader, is a comprehensive application designed for efficient garage management. This NextJS-based app encompasses features for handling customers, vehicles, payments, users, and more. The technology stack includes MongoDB, Firebase, Zustand, and other cutting-edge tools. Although the app is currently not connected to a specific database, it serves as a robust foundation for streamlined garage operations."
+                img={proj1}
+                link="https://garage-management-system.netlify.com"
+                github="https://github.com/labinotveseli"
               />
             </div>
             <div className="col-span-6 sm:col-span-12">
               <Project
-                type="Website Template"
+                type="Web App"
                 img={proj5}
-                title="Agency Website Template"
-                link="https://devdreaming.com/videos/build-stunning-fashion-studio-website-with-reactJS-locomotive-scroll-gsap"
-                github="https://github.com/codebucks27/wibe-studio"
+                title="E-Commerce NextJS App"
+                link="https://www.labinotveseli.com"
+                github="https://github.com/labinotveseli"
               />
             </div>
             <div className="col-span-6 sm:col-span-12">
               <Project
-                type="Blog Website"
-                img={proj6}
-                title="DevDreaming"
-                link="https://devdreaming.com"
-                github="https://github.com/codebucks27"
+                type="SaaS App"
+                img={proj5}
+                title="Form Builder Full-Stack"
+                link="https://www.labinotveseli.com"
+                github="https://github.com/labinotveseli"
               />
             </div>
           </div>
