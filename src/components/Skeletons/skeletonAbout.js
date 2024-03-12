@@ -3,7 +3,7 @@ import React from "react";
 const SkeletonAbout = () => {
   return (
     <div className="border p-4 rounded shadow-2xl w-[90%] max-w-[500px] sm:mb-5 sm:w-full">
-      <div className="relative h-[310px] sm:h-[118px] mb-4 flex justify-center items-center bg-gray-300 animate-pulse">
+      <div className="relative h-[310px] sm:h-36 mb-4 flex justify-center items-center bg-gray-300 animate-pulse">
         <svg
           className="w-10 h-10 text-gray-200 dark:text-gray-600"
           aria-hidden="true"
