@@ -18,11 +18,6 @@ const FramerImage = motion(Image);
 
 const FeaturedProject = ({ type, title, summary, img, link, github }) => {
 
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const handleImageLoad = () => {
-    setImageLoaded(true);
-  };
-
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -107,11 +102,6 @@ lg:p-8 xs:rounded-2xl  xs:rounded-br-3xl xs:p-4
 };
 
 const Project = ({ title, type, img, link, github, summary }) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const handleImageLoad = () => {
-    setImageLoaded(true);
-  };
-
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

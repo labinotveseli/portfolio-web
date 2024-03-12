@@ -12,10 +12,6 @@ import TransitionEffect from "@/components/TransitionEffect";
 import SkeletonHome from "../components/Skeletons/skeletonHome";
 
 export default function Home() {
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const handleImageLoad = () => {
-    setImageLoaded(true);
-  };
 
   const [loading, setLoading] = useState(true);
 
@@ -48,10 +44,9 @@ export default function Home() {
             <Image
                 src={profilePic}
                 alt="LabinotVeseli"
-                className={`h-auto w-85 sm:w-full sm:pb-5 drop-shadow-[0_5px_5px_rgba(1,1,0.7,0.7)] ${imageLoaded ? "" : "hidden"}`}
+                className="h-auto w-85 sm:w-full sm:pb-5 drop-shadow-[0_5px_5px_rgba(1,1,0.7,0.7)]"
                 sizes="100vw"
                 priority
-                onLoad={handleImageLoad}
               />
             }
             </div>

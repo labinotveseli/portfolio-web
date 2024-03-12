@@ -39,11 +39,6 @@ function AnimatedNumberFramerMotion({ value }) {
 
 export default function About() {
 
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const handleImageLoad = () => {
-    setImageLoaded(true);
-  };
-
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -114,7 +109,6 @@ export default function About() {
                   alt="Labinot"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   priority
-                  onLoad={handleImageLoad}
                   />
                 }
             </div>
