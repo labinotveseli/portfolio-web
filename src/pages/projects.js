@@ -28,7 +28,7 @@ const FeaturedProject = ({ type, title, summary, img, link, github }) => {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 2000);
   }, []);
 
 
@@ -117,7 +117,7 @@ const Project = ({ title, type, img, link, github, summary }) => {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 2000);
   }, []);
 
   return (
