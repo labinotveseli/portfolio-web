@@ -6,8 +6,8 @@ import Head from "next/head";
 import { useState } from "react";
 import Modal from "react-modal";
 import { sendContactForm } from "../lib/api";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const initValues = { name: "", email: "", subject: "", message: "" };
 
@@ -26,35 +26,33 @@ const Contact = () => {
   const onBlur = ({ target }) =>
     setTouched((prev) => ({ ...prev, [target.name]: true }));
 
-    const onSubmit = async () => {
+  const onSubmit = async () => {
+    setState((prev) => ({
+      ...prev,
+      isLoading: true,
+    }));
+    try {
+      await sendContactForm(state.values);
+      setTouched({});
       setState((prev) => ({
         ...prev,
-        isLoading: true,
+        showModal: true,
+        isLoading: false,
       }));
-      try {
-        await sendContactForm(state.values);
-        setTouched({});
-        setState((prev) => ({
-          ...prev,
-          showModal: true,
-          isLoading: false,
-        }));
-        toast({
-          title: "Message sent.",
-          status: "success",
-          duration: 2000,
-          position: "top",
-        });
-      } catch (error) {
-        setState((prev) => ({
-          ...prev,
-          isLoading: false,
-          error: error.message,
-        }));
-      }
-    };
-    
-  
+      toast({
+        title: "Message sent.",
+        status: "success",
+        duration: 2000,
+        position: "top",
+      });
+    } catch (error) {
+      setState((prev) => ({
+        ...prev,
+        isLoading: false,
+        error: error.message,
+      }));
+    }
+  };
 
   const closeModal = () => {
     setState((prev) => ({

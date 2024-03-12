@@ -7,18 +7,17 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import webIcon from "../../public/images/svgs/web-icon.png";
-import profilePic from "../../public/images/profile/developer-pic-1.png";
+import profilePic from "../../public/images/profile/developer-pic-1.webp";
 import TransitionEffect from "@/components/TransitionEffect";
 import SkeletonHome from "../components/Skeletons/skeletonHome";
 
 export default function Home() {
-
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 800);
   }, []);
 
   return (
@@ -40,15 +39,22 @@ export default function Home() {
         <Layout className="!pt-0 md:!pt-16 sm:!pt-16">
           <div className="flex w-full items-start justify-between md:flex-col">
             <div className="w-1/2 lg:hidden md:inline-block md:w-full">
-            {loading ? <SkeletonHome /> :
-            <Image
-                src={profilePic}
-                alt="LabinotVeseli"
-                className="h-auto w-85 sm:w-full sm:pb-5 drop-shadow-[0_5px_5px_rgba(1,1,0.7,0.7)]"
-                sizes="100vw"
-                priority
-              />
-            }
+              {loading ? (
+                <div className="opacity-100 transition-opacity ease-in-out duration-500">
+                  <SkeletonHome />
+                </div>
+              ) : (
+                <div className="image-container transition-all transform scale-100 hover:scale-105">
+                  <Image
+                    src={profilePic}
+                    alt="LabinotVeseli"
+                    className="h-auto w-85 sm:w-full sm:pb-5 drop-shadow-[0_5px_5px_rgba(1,1,0.7,0.7)] "
+                    sizes="100vw"
+                    priority={true}
+                    loading="eager"
+                  />
+                </div>
+              )}
             </div>
             <div className="flex w-1/2 flex-col items-center self-center lg:w-full lg:text-center">
               <AnimatedText

@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout";
 import Head from "next/head";
 import Image from "next/image";
-import profile from "../../public/images/profile/developer-pic-2.png";
+import profile from "../../public/images/profile/developer-pic-2.webp";
 import { useInView, useMotionValue, useSpring } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
@@ -38,13 +38,12 @@ function AnimatedNumberFramerMotion({ value }) {
 }
 
 export default function About() {
-
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 800);
   }, []);
 
   return (
@@ -102,15 +101,22 @@ export default function About() {
                 className="absolute  top-0 -right-3 -z-10 h-[103%] w-[102%]  rounded-[2rem] rounded-br-3xl 
                 bg-dark dark:bg-light"
               />
-               {loading ? <SkeletonAbout /> :
-                <Image
-                  className="h-auto w-full rounded-2xl"
-                  src={profile}
-                  alt="Labinot"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  priority
+              {loading ? (
+                <div className="opacity-100 transition-opacity ease-in-out duration-500">
+                  <SkeletonAbout />
+                </div>
+              ) : (
+                <div className="image-container transition-all transform scale-100 hover:scale-105">
+                  <Image
+                    className="h-auto w-full rounded-2xl"
+                    src={profile}
+                    alt="Labinot"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    priority={true}
+                    loading="eager"
                   />
-                }
+                </div>
+              )}
             </div>
             <div
               className="col-span-2 flex flex-col items-end justify-between xl:col-span-8 xl:flex-row 

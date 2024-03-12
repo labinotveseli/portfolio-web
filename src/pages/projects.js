@@ -6,26 +6,24 @@ import { motion } from "framer-motion";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import proj1 from "../../public/images/projects/garage.png";
-import proj2 from "../../public/images/projects/starlabs.jpg";
-import proj3 from "../../public/images/projects/multipurpose.png";
-import proj4 from "../../public/images/projects/portfolio.png";
-import proj5 from "../../public/images/projects/coming-soon.jpg";
+import proj1 from "../../public/images/projects/garage.webp";
+import proj2 from "../../public/images/projects/starlabs.webp";
+import proj3 from "../../public/images/projects/multipurpose.webp";
+import proj4 from "../../public/images/projects/portfolio.webp";
+import proj5 from "../../public/images/projects/coming-soon.webp";
 import TransitionEffect from "@/components/TransitionEffect";
 import SkeletonProjects from "../components/Skeletons/skeletonProjects";
 
 const FramerImage = motion(Image);
 
 const FeaturedProject = ({ type, title, summary, img, link, github }) => {
-
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 800);
   }, []);
-
 
   return (
     <article
@@ -45,19 +43,24 @@ lg:p-8 xs:rounded-2xl  xs:rounded-br-3xl xs:p-4
         target={"_blank"}
         className="w-1/2 cursor-pointer overflow-hidden rounded-lg lg:w-full"
       >
-         {loading ? <SkeletonProjects /> :
+        {loading ? (
+          <div className="opacity-100 transition-opacity ease-in-out duration-500">
+            <SkeletonProjects />
+          </div>
+        ) : (
           <FramerImage
             src={img}
             className="h-auto w-full"
             alt={title}
+            priority={true}
+            loading="eager"
             whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.4 }}
             sizes="(max-width: 768px) 100vw,
               (max-width: 1200px) 50vw,
               33vw"
-            priority
-            />
-          }
+          />
+        )}
       </Link>
       <div className="flex w-1/2 flex-col items-start justify-between pl-6 lg:w-full lg:pl-0 lg:pt-6">
         <span className="text-xl font-medium text-primary dark:text-primaryDark xs:text-base">
@@ -107,7 +110,7 @@ const Project = ({ title, type, img, link, github, summary }) => {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 800);
   }, []);
 
   return (
@@ -128,18 +131,24 @@ const Project = ({ title, type, img, link, github, summary }) => {
         target={"_blank"}
         className="w-full cursor-pointer overflow-hidden rounded-lg"
       >
-        {loading ? <SkeletonProjects /> :
+        {loading ? (
+          <div className="opacity-100 transition-opacity ease-in-out duration-500">
+            <SkeletonProjects />
+          </div>
+        ) : (
           <FramerImage
             src={img}
             alt={title}
             className="h-auto w-full"
+            priority={true}
+            loading="eager"
             whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.4 }}
             sizes="(max-width: 768px) 100vw,
               (max-width: 1200px) 50vw,
               33vw"
-              />
-            }
+          />
+        )}
       </Link>
       <div className="mt-4 flex w-full flex-col items-start justify-between">
         <span className="text-xl font-medium text-primary dark:text-primaryDark lg:text-lg md:text-base">
