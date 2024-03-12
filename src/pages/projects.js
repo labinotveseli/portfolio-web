@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import AnimatedText from "@/components/AnimatedText";
 import { GithubIcon } from "@/components/Icons";
 import Layout from "@/components/Layout";
@@ -11,10 +12,26 @@ import proj3 from "../../public/images/projects/multipurpose.png";
 import proj4 from "../../public/images/projects/portfolio.png";
 import proj5 from "../../public/images/projects/coming-soon.jpg";
 import TransitionEffect from "@/components/TransitionEffect";
+import SkeletonProjects from "../components/Skeletons/skeletonProjects";
 
 const FramerImage = motion(Image);
 
 const FeaturedProject = ({ type, title, summary, img, link, github }) => {
+
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+
   return (
     <article
       className="relative flex w-full items-center  justify-between rounded-3xl rounded-br-2xl border
@@ -33,17 +50,19 @@ lg:p-8 xs:rounded-2xl  xs:rounded-br-3xl xs:p-4
         target={"_blank"}
         className="w-1/2 cursor-pointer overflow-hidden rounded-lg lg:w-full"
       >
-        <FramerImage
-          src={img}
-          className="h-auto w-full"
-          alt={title}
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.2 }}
-          sizes="(max-width: 768px) 100vw,
+         {loading ? <SkeletonProjects /> :
+          <FramerImage
+            src={img}
+            className="h-auto w-full"
+            alt={title}
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.2 }}
+            sizes="(max-width: 768px) 100vw,
               (max-width: 1200px) 50vw,
               33vw"
-          priority
-        />
+            priority
+            />
+          }
       </Link>
       <div className="flex w-1/2 flex-col items-start justify-between pl-6 lg:w-full lg:pl-0 lg:pt-6">
         <span className="text-xl font-medium text-primary dark:text-primaryDark xs:text-base">
@@ -88,6 +107,19 @@ lg:p-8 xs:rounded-2xl  xs:rounded-br-3xl xs:p-4
 };
 
 const Project = ({ title, type, img, link, github, summary }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
   return (
     <article
       className="relative flex w-full h-full flex-col items-center justify-center rounded-2xl  rounded-br-2xl 
@@ -106,16 +138,18 @@ const Project = ({ title, type, img, link, github, summary }) => {
         target={"_blank"}
         className="w-full cursor-pointer overflow-hidden rounded-lg"
       >
-        <FramerImage
-          src={img}
-          alt={title}
-          className="h-auto w-full"
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.2 }}
-          sizes="(max-width: 768px) 100vw,
+        {loading ? <SkeletonProjects /> :
+          <FramerImage
+            src={img}
+            alt={title}
+            className="h-auto w-full"
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.2 }}
+            sizes="(max-width: 768px) 100vw,
               (max-width: 1200px) 50vw,
               33vw"
-        />
+              />
+            }
       </Link>
       <div className="mt-4 flex w-full flex-col items-start justify-between">
         <span className="text-xl font-medium text-primary dark:text-primaryDark lg:text-lg md:text-base">

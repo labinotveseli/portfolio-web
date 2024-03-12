@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import AnimatedText from "@/components/AnimatedText";
 import { HireMe } from "@/components/HireMe";
 import { LinkArrow } from "@/components/Icons";
@@ -8,8 +9,22 @@ import Link from "next/link";
 import webIcon from "../../public/images/svgs/web-icon.png";
 import profilePic from "../../public/images/profile/developer-pic-1.png";
 import TransitionEffect from "@/components/TransitionEffect";
+import SkeletonHome from "../components/Skeletons/skeletonHome";
 
 export default function Home() {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
   return (
     <>
       <Head>
@@ -29,13 +44,16 @@ export default function Home() {
         <Layout className="!pt-0 md:!pt-16 sm:!pt-16">
           <div className="flex w-full items-start justify-between md:flex-col">
             <div className="w-1/2 lg:hidden md:inline-block md:w-full">
-              <Image
+            {loading ? <SkeletonHome /> :
+            <Image
                 src={profilePic}
                 alt="LabinotVeseli"
-                className="h-auto w-85 sm:w-full sm:pb-5 drop-shadow-[0_5px_5px_rgba(1,1,0.7,0.7)] "
+                className={`h-auto w-85 sm:w-full sm:pb-5 drop-shadow-[0_5px_5px_rgba(1,1,0.7,0.7)] ${imageLoaded ? "" : "hidden"}`}
                 sizes="100vw"
                 priority
+                onLoad={handleImageLoad}
               />
+            }
             </div>
             <div className="flex w-1/2 flex-col items-center self-center lg:w-full lg:text-center">
               <AnimatedText

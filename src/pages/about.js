@@ -3,7 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import profile from "../../public/images/profile/developer-pic-2.png";
 import { useInView, useMotionValue, useSpring } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Skills from "@/components/Skills";
 import Experience from "@/components/Experience";
@@ -11,6 +11,7 @@ import Education from "@/components/Education";
 import AnimatedText from "@/components/AnimatedText";
 import TransitionEffect from "@/components/TransitionEffect";
 import Certifications from "@/components/Certifications";
+import SkeletonAbout from "../components/Skeletons/skeletonAbout";
 
 function AnimatedNumberFramerMotion({ value }) {
   const ref = useRef(null);
@@ -37,6 +38,20 @@ function AnimatedNumberFramerMotion({ value }) {
 }
 
 export default function About() {
+
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
   return (
     <>
       <Head>
@@ -64,7 +79,13 @@ export default function About() {
               <p className="font-medium ">
                 Hi, I&apos;m <strong>Labinot</strong>, a web developer. I&apos;m
                 passionate about making attractive and user-friendly websites
-                and applications. Experienced in Software Development, with a focus on building SaaS applications, E-commerce platforms, and more, using the MERN Stack and various other stacks. With about 2+ years of overall web development experience, I am continually exploring innovative approaches to bring my projects to life. My goal is to consistently create visually captivating and user-centered digital solutions.
+                and applications. Experienced in Software Development, with a
+                focus on building SaaS applications, E-commerce platforms, and
+                more, using the MERN Stack and various other stacks. With about
+                2+ years of overall web development experience, I am continually
+                exploring innovative approaches to bring my projects to life. My
+                goal is to consistently create visually captivating and
+                user-centered digital solutions.
               </p>
               <p className="my-4 font-medium">
                 I hold the belief that web and app development extends beyond
@@ -72,9 +93,9 @@ export default function About() {
                 user-friendly, engaging experiences.
               </p>
               <p className="font-medium">
-                I approach every project, whether it&apos;s an application, platforms, or
-                digital product, with an unwavering commitment to deliver
-                excellence and prioritize user satisfaction above all.
+                I approach every project, whether it&apos;s an application,
+                platforms, or digital product, with an unwavering commitment to
+                deliver excellence and prioritize user satisfaction above all.
               </p>
             </div>
             <div
@@ -86,15 +107,16 @@ export default function About() {
                 className="absolute  top-0 -right-3 -z-10 h-[103%] w-[102%]  rounded-[2rem] rounded-br-3xl 
                 bg-dark dark:bg-light"
               />
-              <Image
-                className="h-auto w-full rounded-2xl"
-                src={profile}
-                alt="Labinot"
-                sizes="(max-width: 768px) 100vw,
-              (max-width: 1200px) 50vw,
-              33vw"
-                priority
-              />
+               {loading ? <SkeletonAbout /> :
+                <Image
+                  className="h-auto w-full rounded-2xl"
+                  src={profile}
+                  alt="Labinot"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  priority
+                  onLoad={handleImageLoad}
+                  />
+                }
             </div>
             <div
               className="col-span-2 flex flex-col items-end justify-between xl:col-span-8 xl:flex-row 

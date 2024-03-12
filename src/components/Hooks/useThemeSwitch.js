@@ -29,7 +29,7 @@ export function useThemeSwitch() {
         } else {
           document.documentElement.classList.remove("dark");
         }
-        return window.matchMedia(preferDarkQuery).matches ? "dark" : "light";
+        return window.matchMedia(preferDarkQuery).matches ? "light" : "dark";
       }
     };
 
