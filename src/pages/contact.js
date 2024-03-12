@@ -1,17 +1,13 @@
-import React from "react";
+import React, { useRef } from "react";
 import AnimatedText from "@/components/AnimatedText";
 import Layout from "@/components/Layout";
 import TransitionEffect from "@/components/TransitionEffect";
 import Head from "next/head";
 import { useState } from "react";
 import Modal from "react-modal";
-import { sendContactForm } from "../lib/api";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import emailjs from "@emailjs/browser";
 
 const initValues = { name: "", email: "", subject: "", message: "" };
-
-const initState = { isLoading: false, error: "", values: initValues };
 
 const Contact = () => {
   const [state, setState] = useState({
@@ -21,43 +17,46 @@ const Contact = () => {
     values: initValues,
   });
 
-  const [touched, setTouched] = useState({});
+  const form = useRef();
 
-  const onBlur = ({ target }) =>
-    setTouched((prev) => ({ ...prev, [target.name]: true }));
+  const sendEmail = (e) => {
+    e.preventDefault();
 
-  const onSubmit = async () => {
-    setState((prev) => ({
-      ...prev,
-      isLoading: true,
-    }));
-    try {
-      await sendContactForm(state.values);
-      setTouched({});
-      setState((prev) => ({
-        ...prev,
-        showModal: true,
-        isLoading: false,
-      }));
-      toast({
-        title: "Message sent.",
-        status: "success",
-        duration: 2000,
-        position: "top",
-      });
-    } catch (error) {
-      setState((prev) => ({
-        ...prev,
-        isLoading: false,
-        error: error.message,
-      }));
-    }
+    emailjs
+      .sendForm("service_bdwb3pt", "template_2cyvg9g", form.current, {
+        publicKey: "oLcPqSafAzwVscgJ3",
+      })
+      .then(
+        () => {
+          setState((prev) => ({
+            ...prev,
+            showModal: true,
+          }));
+          console.log("SUCCESS!");
+        },
+        (error) => {
+          console.log("FAILED...", error.text);
+        }
+      );
   };
 
   const closeModal = () => {
+    form.current.reset();
     setState((prev) => ({
       ...prev,
       showModal: false,
+      values: { ...initValues },
+    }));
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setState((prev) => ({
+      ...prev,
+      values: {
+        ...prev.values,
+        [name]: value,
+      },
     }));
   };
 
@@ -87,26 +86,32 @@ const Contact = () => {
                   </p>
                 </div>
 
-                <form onSubmit={onSubmit}>
+                <form ref={form} onSubmit={sendEmail}>
                   <input
                     className="shadow mb-4 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     type="text"
                     placeholder="Name"
-                    name="name"
+                    name="user_name"
+                    value={state.values.user_name}
+                    onChange={handleInputChange}
                   />
 
                   <input
                     className="shadow mb-4 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     type="email"
                     placeholder="Email"
-                    name="email"
+                    name="user_email"
+                    value={state.values.user_email}
+                    onChange={handleInputChange}
                   />
 
                   <input
                     className="shadow mb-4 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     type="text"
                     placeholder="Subject"
-                    name="_subject"
+                    name="subject"
+                    value={state.values.subject}
+                    onChange={handleInputChange}
                   />
 
                   <textarea
@@ -115,6 +120,8 @@ const Contact = () => {
                     placeholder="Type your message here..."
                     name="message"
                     style={{ height: "121px" }}
+                    value={state.values.message}
+                    onChange={handleInputChange}
                   ></textarea>
                   <div className="flex sm:flex-row justify-between">
                     <div className="mr-20">
@@ -126,7 +133,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <input
-                        className="shadow bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 sm:py-1 sm:px-2 rounded focus:outline-none focus:shadow-outline mt-2 sm:mt-0"
+                        className="shadow bg-pink-600 hover:bg-pink-800 text-white font-bold py-2 px-4 sm:py-1 sm:px-2 rounded focus:outline-none focus:shadow-outline mt-2 sm:mt-0"
                         type="reset"
                         value="Reset"
                       />
@@ -136,10 +143,39 @@ const Contact = () => {
                 <Modal
                   isOpen={state.showModal}
                   contentLabel="Message Sent Successfully"
+                  className="rounded-3xl shadow-2xl items-center justify-center"
+                  style={{
+                    overlay: {
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    },
+                    content: {
+                      borderRadius: "16px",
+                      boxShadow: "0 4px 24px rgba(0, 0, 0, 0.1)",
+                      backgroundColor: "white",
+                      alignItems: "center",
+                    },
+                    width: "50%",
+                    margin: "auto",
+                  }}
                 >
-                  <h2>Message Sent Successfully!</h2>
-                  <p>Thank you for reaching out.</p>
-                  <button onClick={closeModal}>Close</button>
+                  <div className="p-8 text-center sm:p-12">
+                    <p className="text-sm font-semibold uppercase tracking-widest text-pink-500">
+                      Message Sent Successfully!
+                    </p>
+                    <h2 className="mt-6 text-3xl font-bold">
+                      Thank you for reaching out.
+                    </h2>
+                  </div>
+                  <div className="flex justify-center">
+                    <button
+                      className="mt-8 mb-8 w-[30%] rounded-full bg-pink-600 py-4 text-lg font-semibold text-white shadow-xl"
+                      onClick={closeModal}
+                    >
+                      Close
+                    </button>
+                  </div>
                 </Modal>
               </div>
             </div>
