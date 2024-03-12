@@ -235,7 +235,7 @@ export default function Projects() {
                 title="Multipurpose Landing site"
                 summary="This versatile multipurpose website app is meticulously crafted using HTML, CSS, JavaScript, and Bootstrap, creating an engaging landing page. Designed with flexibility in mind, it serves a multitude of purposes, providing a user-friendly interface for diverse applications. The utilization of essential web technologies ensures a seamless and visually appealing experience for visitors. Whether showcasing a product, service, or personal portfolio, this website app offers a dynamic and responsive platform for effective communication and engagement."
                 img={proj3}
-                link="https://multipurpose-site.netlify.app/"
+                link="https://multipurpose.labinotveseli.com"
                 github="https://github.com/labinotveseli/multipurposepage"
               />
             </div>
@@ -245,7 +245,7 @@ export default function Projects() {
                 title="Garage Management System"
                 summary="The Garage Management System, developed collaboratively with a team at Benkco under the guidance of a Senior Team Leader, is a comprehensive application designed for efficient garage management. This NextJS-based app encompasses features for handling customers, vehicles, payments, users, and more. The technology stack includes MongoDB, Firebase, Zustand, and other cutting-edge tools. Although the app is currently not connected to a specific database, it serves as a robust foundation for streamlined garage operations."
                 img={proj1}
-                link="https://garage-management-system.netlify.com"
+                link="https://garage.labinotveseli.com"
                 github="https://github.com/labinotveseli"
               />
             </div>
