@@ -1,3 +1,4 @@
+import * as Yup from "yup";
 import React, { useRef } from "react";
 import AnimatedText from "@/components/AnimatedText";
 import Layout from "@/components/Layout";
@@ -9,35 +10,86 @@ import emailjs from "@emailjs/browser";
 
 const initValues = { name: "", email: "", subject: "", message: "" };
 
+const emailRegex = /^[a-zA-Z]+@[a-zA-Z]+\.[a-zA-Z]+$/;
+
+const validationSchema = Yup.object().shape({
+  user_name: Yup.string()
+    .matches(/^[a-zA-Z\s]{3,}$/, "Name should have at least 3 letters")
+    .required("Name is required"),
+  user_email: Yup.string()
+    .matches(emailRegex, "Invalid email address")
+    .required("Email is required"),
+  subject: Yup.string()
+    .matches(/^[a-zA-Z\s]{3,}$/, "Subject should have at least 3 letters")
+    .required("Subject is required"),
+  message: Yup.string()
+    .matches(/^[a-zA-Z\s]{3,}$/, "Message should have at least 3 letters")
+    .required("Message is required"),
+});
+
 const Contact = () => {
   const [state, setState] = useState({
     isLoading: false,
     error: "",
     showModal: false,
     values: initValues,
+    errors: {},
   });
 
   const form = useRef();
 
-  const sendEmail = (e) => {
+  const sendEmail = async (e) => {
     e.preventDefault();
 
-    emailjs
-      .sendForm("service_bdwb3pt", "template_2cyvg9g", form.current, {
-        publicKey: "oLcPqSafAzwVscgJ3",
-      })
-      .then(
-        () => {
+    try {
+      await validationSchema.validate(state.values, { abortEarly: false });
+
+      const individualErrors = Object.keys(state.errors).filter(
+        (key) => key !== "general" && state.errors[key]
+      );
+
+      if (individualErrors.length > 0) {
+        setState((prev) => ({
+          ...prev,
+          errors: {
+            ...prev.errors,
+            general: "",
+          },
+        }));
+
+        return;
+      }
+
+      emailjs
+        .sendForm("service_bdwb3pt", "template_2cyvg9g", form.current, {
+          publicKey: "oLcPqSafAzwVscgJ3",
+        })
+        .then(() => {
           setState((prev) => ({
             ...prev,
             showModal: true,
           }));
           console.log("SUCCESS!");
-        },
-        (error) => {
+        })
+        .catch((error) => {
           console.log("FAILED...", error.text);
-        }
-      );
+        });
+    } catch (error) {
+      const validationErrors = {};
+      error.inner.forEach((err) => {
+        validationErrors[err.path] = err.message;
+      });
+
+      setState((prev) => ({
+        ...prev,
+        errors: {
+          ...prev.errors,
+          ...validationErrors,
+        },
+      }));
+
+      console.log("Validation Error:", validationErrors);
+    }
   };
 
   const closeModal = () => {
@@ -46,6 +98,7 @@ const Contact = () => {
       ...prev,
       showModal: false,
       values: { ...initValues },
+      errors: {},
     }));
   };
 
@@ -56,6 +109,11 @@ const Contact = () => {
       values: {
         ...prev.values,
         [name]: value,
+      },
+      errors: {
+        ...prev.errors,
+        [name]: "",
+        general: "",
       },
     }));
   };
@@ -88,34 +146,57 @@ const Contact = () => {
 
                 <form ref={form} onSubmit={sendEmail}>
                   <input
-                    className="shadow mb-4 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                      state.errors.user_name ? "border-red-500" : "mb-4"
+                    }`}
                     type="text"
                     placeholder="Name"
                     name="user_name"
                     value={state.values.user_name}
                     onChange={handleInputChange}
                   />
+                  {state.errors.user_name && (
+                    <p className="text-red-500 text-sm mb-4">
+                      {state.errors.user_name}
+                    </p>
+                  )}
 
                   <input
-                    className="shadow mb-4 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    type="email"
+                    className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                      state.errors.user_email ? "border-red-500": "mb-4"
+                    }`}
+                    type="text"
                     placeholder="Email"
                     name="user_email"
                     value={state.values.user_email}
                     onChange={handleInputChange}
                   />
+                  {state.errors.user_email && (
+                    <p className="text-red-500 text-sm mb-4">
+                      {state.errors.user_email}
+                    </p>
+                  )}
 
                   <input
-                    className="shadow mb-4 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                      state.errors.subject ? "border-red-500" : "mb-4"
+                    }`}
                     type="text"
                     placeholder="Subject"
                     name="subject"
                     value={state.values.subject}
                     onChange={handleInputChange}
                   />
+                  {state.errors.subject && (
+                    <p className="text-red-500 text-sm mb-4">
+                      {state.errors.subject}
+                    </p>
+                  )}
 
                   <textarea
-                    className="shadow mb-4 min-h-0 appearance-none border rounded h-64 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className={`shadow min-h-0 appearance-none border rounded h-64 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                      state.errors.message ? "border-red-500" : "mb-4"
+                    }`}
                     type="text"
                     placeholder="Type your message here..."
                     name="message"
@@ -123,6 +204,12 @@ const Contact = () => {
                     value={state.values.message}
                     onChange={handleInputChange}
                   ></textarea>
+                  {state.errors.message && (
+                    <p className="text-red-500 text-sm mb-4">
+                      {state.errors.message}
+                    </p>
+                  )}
+
                   <div className="flex sm:flex-row justify-between">
                     <div className="mr-20">
                       <input
@@ -139,11 +226,18 @@ const Contact = () => {
                       />
                     </div>
                   </div>
+
+                  {state.errors.general && (
+                    <p className="text-red-500 text-sm mt-4">
+                      {state.errors.general}
+                    </p>
+                  )}
                 </form>
+
                 <Modal
                   isOpen={state.showModal}
                   contentLabel="Message Sent Successfully"
-                  className="rounded-3xl shadow-2xl items-center justify-center"
+                  className="rounded-3xl shadow-2xl items-center justify-center xs:w-[90%] sm:w-[90%]"
                   style={{
                     overlay: {
                       display: "flex",

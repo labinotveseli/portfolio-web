@@ -27,7 +27,8 @@
     "react-loading-skeleton": "^3.4.0",
     "react-modal": "^3.16.1",
     "react-toastify": "^10.0.4",
-    "sharp": "^0.33.2"
+    "sharp": "^0.33.2",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.35",
